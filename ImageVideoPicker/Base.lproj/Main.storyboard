@@ -37,22 +37,36 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Rew-9g-ikj" id="X6u-MS-MdW"/>
+                                    <outlet property="delegate" destination="Rew-9g-ikj" id="mbc-RX-CBe"/>
+                                </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pf6-hf-Yfc">
                                 <rect key="frame" x="16" y="94" width="343" height="30"/>
                                 <state key="normal" title="add images"/>
                                 <connections>
-                                    <segue destination="1J0-b5-8ns" kind="show" id="ekq-vF-fw8"/>
+                                    <segue destination="1J0-b5-8ns" kind="show" identifier="imagePicker" id="ekq-vF-fw8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2v-pb-7Fs">
+                                <rect key="frame" x="16" y="132" width="343" height="30"/>
+                                <state key="normal" title="saveImages"/>
+                                <connections>
+                                    <action selector="saveImageToFile" destination="Rew-9g-ikj" eventType="touchUpInside" id="RWl-qY-AI5"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="549-ej-FaF" firstAttribute="top" secondItem="Hak-bE-Qmi" secondAttribute="top" constant="145" id="HDL-ql-u5J"/>
+                            <constraint firstItem="f2v-pb-7Fs" firstAttribute="leading" secondItem="Hak-bE-Qmi" secondAttribute="leading" constant="16" id="IOV-VA-ibK"/>
                             <constraint firstItem="549-ej-FaF" firstAttribute="bottom" secondItem="Hak-bE-Qmi" secondAttribute="bottom" constant="-2" id="KEE-YO-s0s"/>
+                            <constraint firstItem="Hak-bE-Qmi" firstAttribute="trailing" secondItem="f2v-pb-7Fs" secondAttribute="trailing" constant="16" id="MFC-0k-DIJ"/>
                             <constraint firstItem="549-ej-FaF" firstAttribute="leading" secondItem="Hak-bE-Qmi" secondAttribute="leading" id="QQM-b0-NNl"/>
                             <constraint firstItem="Pf6-hf-Yfc" firstAttribute="leading" secondItem="Hak-bE-Qmi" secondAttribute="leading" constant="16" id="RWv-0g-eJM"/>
                             <constraint firstItem="Hak-bE-Qmi" firstAttribute="trailing" secondItem="Pf6-hf-Yfc" secondAttribute="trailing" constant="16" id="UJv-lK-fis"/>
+                            <constraint firstItem="f2v-pb-7Fs" firstAttribute="top" secondItem="Pf6-hf-Yfc" secondAttribute="bottom" constant="8" id="dZW-51-2tA"/>
                             <constraint firstItem="549-ej-FaF" firstAttribute="trailing" secondItem="Hak-bE-Qmi" secondAttribute="trailing" id="fpJ-qC-xvW"/>
                             <constraint firstItem="Pf6-hf-Yfc" firstAttribute="top" secondItem="Hak-bE-Qmi" secondAttribute="top" constant="30" id="mJM-db-ntc"/>
                         </constraints>
@@ -148,6 +162,9 @@
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="doneAction:" destination="1J0-b5-8ns" eventType="touchUpInside" id="wd7-o7-4zJ"/>
+                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1Vu-KK-8sP">
                                 <rect key="frame" x="0.0" y="407" width="375" height="160"/>

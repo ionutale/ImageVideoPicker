@@ -22,7 +22,8 @@ class MediaFile {
 
 protocol ImageVideoPickerDelegate {
     func onCancel()
-    func onDoneSelection(urls: [MediaFile])
+//    func onDoneSelection(urls: [MediaFile])
+    func onDoneSelection(assets: [PHAsset])
 }
 
 class ImageVideoPicker: UIViewController {
@@ -51,6 +52,7 @@ class ImageVideoPicker: UIViewController {
     
     var allPhotos: PHFetchResult<PHAsset>!
     var selectedPhotos: [PHAsset] = []
+    var delegate: ImageVideoPickerDelegate?
     
     fileprivate let imageManager = PHCachingImageManager()
     fileprivate var thumbnailSize: CGSize!
@@ -81,6 +83,10 @@ class ImageVideoPicker: UIViewController {
             }
         }
     }
+    @IBAction func doneAction(_ sender: Any) {
+        delegate?.onDoneSelection(assets: selectedPhotos)
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @IBAction func changeMode(_ sender: UIButton!) {
         if(captureType == .photo) {
@@ -97,6 +103,8 @@ class ImageVideoPicker: UIViewController {
     }
     
     @IBAction func savePicture(_ sender: UIButton!) {
+        guard imageOutput != nil || videoOutput != nil else  { return }
+
         switch captureType {
         case .photo:
             capturePhoto()
@@ -193,6 +201,7 @@ extension ImageVideoPicker: AVCaptureFileOutputRecordingDelegate {
     }
 }
 
+// capture photo
 extension ImageVideoPicker: AVCapturePhotoCaptureDelegate {
     
     @available(iOS 11.0, *)
@@ -224,11 +233,13 @@ extension ImageVideoPicker: AVCapturePhotoCaptureDelegate {
 extension ImageVideoPicker {
     
     func captureVideo() {
+        guard videoOutput != nil else  { return }
         if videoOutput!.connection(with: AVMediaType.video) == nil { return }
         videoOutput?.startRecording(to: filePath, recordingDelegate: self)
     }
     
     func capturePhoto() {
+        guard imageOutput != nil else  { return }
         if imageOutput!.connection(with: AVMediaType.video) == nil { return }
         let settings = AVCapturePhotoSettings()
         let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
