@@ -93,7 +93,7 @@ class ImageVideoPicker: UIViewController {
             mediaModeButton.setImage(#imageLiteral(resourceName: "video"), for: .normal)
         }
         setupCamera()
-        videoPreviewLayer!.frame = previewView.bounds
+        videoPreviewLayer?.frame = previewView.bounds
     }
     
     @IBAction func savePicture(_ sender: UIButton!) {
@@ -245,11 +245,14 @@ extension ImageVideoPicker {
         session = AVCaptureSession()
         session!.sessionPreset = AVCaptureSession.Preset.medium
         
-        let backCamera = AVCaptureDevice.default(for: AVMediaType.video)
+        guard let backCamera = AVCaptureDevice.default(for: AVMediaType.video) else {
+            print("simulator has no camera")
+            return
+        }
         
         var error: NSError?
         var input: AVCaptureDeviceInput?
-        (input, error) = captureDeviceInput(camera: backCamera!)
+        (input, error) = captureDeviceInput(camera: backCamera)
         
         if error == nil && !(session!.canAddInput(input!)) { return }
         session!.addInput(input!)
