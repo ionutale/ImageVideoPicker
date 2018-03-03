@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5148613D204AEFE60056C8D2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5148613C204AEFE60056C8D2 /* MainViewController.swift */; };
 		516F92382049B91C006751D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516F92372049B91C006751D6 /* AppDelegate.swift */; };
 		516F923D2049B91C006751D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516F923B2049B91C006751D6 /* Main.storyboard */; };
 		516F923F2049B91C006751D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 516F923E2049B91C006751D6 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5148613C204AEFE60056C8D2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		516F92342049B91C006751D6 /* ImageVideoPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageVideoPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		516F92372049B91C006751D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		516F923C2049B91C006751D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				516F92372049B91C006751D6 /* AppDelegate.swift */,
+				5148613C204AEFE60056C8D2 /* MainViewController.swift */,
 				516F92492049B954006751D6 /* ImageVideoPicker.swift */,
 				516F924B2049BB4B006751D6 /* ImageVideoPickerCell.swift */,
 				516F923B2049B91C006751D6 /* Main.storyboard */,
@@ -146,6 +149,7 @@
 				516F924A2049B954006751D6 /* ImageVideoPicker.swift in Sources */,
 				516F924C2049BB4B006751D6 /* ImageVideoPickerCell.swift in Sources */,
 				516F92382049B91C006751D6 /* AppDelegate.swift in Sources */,
+				5148613D204AEFE60056C8D2 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
