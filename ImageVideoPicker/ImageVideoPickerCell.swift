@@ -2,8 +2,8 @@
 //  ImageViewPickerCell.swift
 //  Youtech
 //
-//  Created by Matteo Rogai on 31/01/18.
-//  Copyright © 2018 Florence-Consulting. All rights reserved.
+//  Created by Ion Utale on 31/01/18.
+//  Copyright © 2018 Ion Utale. All rights reserved.
 //
 
 import UIKit
@@ -19,6 +19,8 @@ extension TimeInterval {
         return formatter.string(from: self)
     }
 }
+
+
 
 class ImageVideoPickerCell : UICollectionViewCell {
     
@@ -37,6 +39,7 @@ class ImageVideoPickerCell : UICollectionViewCell {
                 videoView.isHidden = false
                 videoDuration.text = asset?.duration.format()
             }
+            
             let imageManager = PHCachingImageManager()
             representedAssetIdentifier = asset?.localIdentifier
             
