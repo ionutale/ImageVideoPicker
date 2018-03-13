@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
 //            let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
 //            try? data.write(to: filename)
 //        }
-//    } 
+//    }
 //
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -41,12 +41,12 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func saveImageToFile() {
-        if let image = UIImage(named: "example.png") {
+        if let image = UIImage(named: "download.png") {
             if let data = UIImageJPEGRepresentation(image, 0.8) {
                 let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
                 try? data.write(to: filename)
             }
-    }
+        }
     }
 }
 
@@ -63,6 +63,17 @@ extension MainViewController: UICollectionViewDataSource {
 
         return cell
     }
+    
+    func getImageFrom(asset: PHAsset, completion: @escaping(UIImage)->()) -> UIImage? {
+        
+            let imageManager = PHCachingImageManager()
+        
+            imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: nil) { (image, anyHash) in
+                print(anyHash)
+                completion(image!)
+        }
+        return nil
+    }
 }
 
 extension MainViewController: ImageVideoPickerDelegate {
@@ -72,9 +83,18 @@ extension MainViewController: ImageVideoPickerDelegate {
     
     func onDoneSelection(assets: [PHAsset]) {
         selectedPhotos = assets
+        
+        for (index, asset) in assets.enumerated() {
+            
+            getImageFrom(asset: asset) { (image) in
+                let mediaType = asset.mediaType == PHAssetMediaType.image ? ".jpg" : "mp4"
+                image.saveToDocuments(with: "image \(index)", type: mediaType)
+
+            }
+        }
+        
         collectionView.reloadData()
     }
-    
     
 }
 

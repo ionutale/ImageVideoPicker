@@ -43,6 +43,9 @@ class ImageVideoPicker: UIViewController {
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     @IBOutlet var previewView: UIView!
     
+    // register time label
+    @IBOutlet var registerTime: UILabel!
+    var timer: Timer?
     // photos/video library
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var mediaModeButton: UIButton!
@@ -63,6 +66,8 @@ class ImageVideoPicker: UIViewController {
         preparePhotoLibrary()
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(toggleCollectionViewAction))
         toggleCollectionView.addGestureRecognizer(tap)
+        
+        timer = 
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,6 +128,10 @@ class ImageVideoPicker: UIViewController {
         default:
             print("capture type not recognized")
         }
+    }
+    
+    @objc func updateRegisterTime () {
+        print("updating")
     }
     
     deinit {
