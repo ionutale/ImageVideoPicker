@@ -94,13 +94,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSY-wp-EQ7">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSY-wp-EQ7">
                                 <rect key="frame" x="151.5" y="72" width="71.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="lXD-sA-iHl"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-iz-78Z">
@@ -248,6 +248,7 @@
                         <outlet property="collectionViewHeight" destination="1dz-Qm-FqH" id="lqU-hS-Tz9"/>
                         <outlet property="mediaModeButton" destination="bQH-e9-cOx" id="vib-bE-lOz"/>
                         <outlet property="previewView" destination="vxR-hf-uUe" id="qcP-XP-yrY"/>
+                        <outlet property="registerTime" destination="eSY-wp-EQ7" id="V9e-tm-YwZ"/>
                         <outlet property="toggleCollectionView" destination="FoH-iz-78Z" id="xs4-iO-ehw"/>
                     </connections>
                 </viewController>

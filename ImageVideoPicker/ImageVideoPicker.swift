@@ -46,6 +46,12 @@ class ImageVideoPicker: UIViewController {
     // register time label
     @IBOutlet var registerTime: UILabel!
     var timer: Timer?
+    var registerTimeSec: Double = 0 {
+        didSet {
+            self.registerTime.text = Date.timeFromSeconds(seconds: self.registerTimeSec)
+        }
+    }
+    
     // photos/video library
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var mediaModeButton: UIButton!
@@ -67,7 +73,6 @@ class ImageVideoPicker: UIViewController {
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(toggleCollectionViewAction))
         toggleCollectionView.addGestureRecognizer(tap)
         
-        timer = 
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,17 +82,26 @@ class ImageVideoPicker: UIViewController {
     
     @objc func toggleCollectionViewAction() {
         if(collectionViewHeight.constant != 0) {
-            UIView.animate(withDuration: 0.3) {
-                self.collectionViewHeight.constant = 0
-                self.view.layoutIfNeeded()
-            }
+            hideCollectionView()
         } else {
-            UIView.animate(withDuration: 0.3) {
-                self.collectionViewHeight.constant = 160
-                self.view.layoutIfNeeded()
-            }
+            showCollectionView()
         }
     }
+    
+    func hideCollectionView () {
+        UIView.animate(withDuration: 0.3) {
+            self.collectionViewHeight.constant = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func showCollectionView () {
+        UIView.animate(withDuration: 0.3) {
+            self.collectionViewHeight.constant = 160
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     @IBAction func doneAction(_ sender: Any) {
         delegate?.onDoneSelection(assets: selectedPhotos)
         self.navigationController?.popViewController(animated: true)
@@ -98,10 +112,12 @@ class ImageVideoPicker: UIViewController {
             captureType = .video
             cameraButton.setImage(#imageLiteral(resourceName: "ic_start_rec"), for: .normal)
             mediaModeButton.setImage(#imageLiteral(resourceName: "ic_camera_white_24dp"), for: .normal)
+            registerTime.isHidden = false
         } else {
             captureType = .photo
             cameraButton.setImage(#imageLiteral(resourceName: "ic_save_photo"), for: .normal)
             mediaModeButton.setImage(#imageLiteral(resourceName: "video"), for: .normal)
+            registerTime.isHidden = true
         }
         setupCamera()
         videoPreviewLayer?.frame = previewView.bounds
@@ -112,14 +128,22 @@ class ImageVideoPicker: UIViewController {
 
         switch captureType {
         case .photo:
+            registerTime.isHidden = true
             capturePhoto()
         case .video:
+            registerTime.isHidden = false
+            registerTimeSec = 0
+            
             if videoOutput!.isRecording {
+                timer?.invalidate()
+                showCollectionView()
                 cameraButton.setImage(#imageLiteral(resourceName: "ic_start_rec"), for: .normal)
                 videoOutput?.stopRecording()
                 mediaModeButton.isEnabled = true
                 collectionView.isHidden = false
             } else {
+                timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateRegisterTime), userInfo: nil, repeats: true)
+                hideCollectionView()
                 mediaModeButton.isEnabled = false
                 collectionView.isHidden = true
                 cameraButton.setImage(#imageLiteral(resourceName: "ic_stop_rec"), for: .normal)
@@ -131,7 +155,7 @@ class ImageVideoPicker: UIViewController {
     }
     
     @objc func updateRegisterTime () {
-        print("updating")
+        registerTimeSec += 1
     }
     
     deinit {
@@ -389,4 +413,26 @@ extension ImageVideoPicker {
         let scale = UIScreen.main.scale
         thumbnailSize = CGSize(width: itemSize.width * scale, height: itemSize.height * scale)
     }
+}
+
+// extract video testing
+extension ImageVideoPicker {
+    PHPhotoLibrary.shared().performChanges({
+    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url!)
+    }) { saved, error in
+    if saved {
+    let fetchOptions = PHFetchOptions()
+    fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+    
+    // After uploading we fetch the PHAsset for most recent video and then get its current location url
+    
+    let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
+    PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
+    let newObj = avurlAsset as! AVURLAsset
+    print(newObj.url)
+    // This is the URL we need now to access the video from gallery directly.
+    })
+    })
+    }
+}
 }

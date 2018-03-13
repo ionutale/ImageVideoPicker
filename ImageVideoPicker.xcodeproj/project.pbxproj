@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5148613D204AEFE60056C8D2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5148613C204AEFE60056C8D2 /* MainViewController.swift */; };
 		5148613F204AFDA70056C8D2 /* download.png in Resources */ = {isa = PBXBuildFile; fileRef = 5148613E204AFDA70056C8D2 /* download.png */; };
+		514BA05920586B1D00744CD3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514BA05820586B1D00744CD3 /* Date+Extension.swift */; };
 		516F92382049B91C006751D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516F92372049B91C006751D6 /* AppDelegate.swift */; };
 		516F923D2049B91C006751D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516F923B2049B91C006751D6 /* Main.storyboard */; };
 		516F923F2049B91C006751D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 516F923E2049B91C006751D6 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		5148613C204AEFE60056C8D2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5148613E204AFDA70056C8D2 /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
+		514BA05820586B1D00744CD3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		516F92342049B91C006751D6 /* ImageVideoPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageVideoPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		516F92372049B91C006751D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		516F923C2049B91C006751D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		518B5CD420553191003E03EA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				514BA05820586B1D00744CD3 /* Date+Extension.swift */,
 				518B5CD22055318D003E03EA /* Image+Extenstion.swift */,
 			);
 			path = Extensions;
@@ -166,6 +169,7 @@
 				516F92382049B91C006751D6 /* AppDelegate.swift in Sources */,
 				518B5CD32055318D003E03EA /* Image+Extenstion.swift in Sources */,
 				5148613D204AEFE60056C8D2 /* MainViewController.swift in Sources */,
+				514BA05920586B1D00744CD3 /* Date+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
