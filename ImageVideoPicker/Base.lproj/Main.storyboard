@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oMO-BJ-Uhe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14101" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oMO-BJ-Uhe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -94,6 +94,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSY-wp-EQ7">
+                                <rect key="frame" x="151.5" y="72" width="71.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="lXD-sA-iHl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-iz-78Z">
                                 <rect key="frame" x="0.0" y="377" width="375" height="30"/>
                                 <subviews>
@@ -209,6 +218,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="eSY-wp-EQ7" firstAttribute="top" secondItem="R6C-YJ-swo" secondAttribute="top" constant="8" id="1Cr-78-A4p"/>
                             <constraint firstItem="R6C-YJ-swo" firstAttribute="trailing" secondItem="TdI-wO-T93" secondAttribute="trailing" constant="30" id="1DI-Qr-2tn"/>
                             <constraint firstAttribute="trailing" secondItem="4ha-bs-AE3" secondAttribute="trailing" id="BLZ-EQ-t4g"/>
                             <constraint firstItem="vxR-hf-uUe" firstAttribute="top" secondItem="mkR-pK-ZRJ" secondAttribute="top" id="E1V-yj-Fe4"/>
@@ -217,6 +227,7 @@
                             <constraint firstItem="vxR-hf-uUe" firstAttribute="bottom" secondItem="mkR-pK-ZRJ" secondAttribute="bottom" id="QnR-M6-pc2"/>
                             <constraint firstAttribute="bottom" secondItem="4ha-bs-AE3" secondAttribute="bottom" id="Wi0-LK-pXM"/>
                             <constraint firstItem="vxR-hf-uUe" firstAttribute="leading" secondItem="mkR-pK-ZRJ" secondAttribute="leading" id="Xd9-PO-UgZ"/>
+                            <constraint firstItem="eSY-wp-EQ7" firstAttribute="centerX" secondItem="mkR-pK-ZRJ" secondAttribute="centerX" id="ZnP-nx-s8V"/>
                             <constraint firstItem="1Vu-KK-8sP" firstAttribute="trailing" secondItem="R6C-YJ-swo" secondAttribute="trailing" id="aH5-25-wa0"/>
                             <constraint firstItem="vxR-hf-uUe" firstAttribute="trailing" secondItem="mkR-pK-ZRJ" secondAttribute="trailing" id="bc0-KN-pmc"/>
                             <constraint firstItem="4ha-bs-AE3" firstAttribute="leading" secondItem="mkR-pK-ZRJ" secondAttribute="leading" id="dKd-c6-5py"/>
