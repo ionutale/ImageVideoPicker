@@ -51,16 +51,6 @@ extension MainViewController: UICollectionViewDataSource {
 
         return cell
     }
-    
-    func getImageFrom(asset: PHAsset, completion: @escaping(UIImage)->()) {
-        
-            let imageManager = PHCachingImageManager()
-        
-            imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: nil) { (image, anyHash) in
-                print(anyHash as Any)
-                completion(image!)
-        }
-    }
 }
 
 extension MainViewController: ImageVideoPickerDelegate {
@@ -71,14 +61,29 @@ extension MainViewController: ImageVideoPickerDelegate {
     func onDoneSelection(assets: [PHAsset]) {
         selectedPhotos = assets
         
-        for (index, asset) in assets.enumerated() {
-            
-            getImageFrom(asset: asset) { (image) in
-                let mediaType = asset.mediaType == PHAssetMediaType.image ? ".jpg" : "mp4"
-                image.saveToDocuments(with: "image \(index)", type: mediaType)
+        for asset in assets {
+            ImageVideoPicker.getDataFrom(asset: asset) { (data) in
+                if data == nil {
+                    print(data as Any, self.returnMediaType(mediaType: asset.mediaType), asset.localIdentifier)
+                } else {
+                    print(data!.count as Any, self.returnMediaType(mediaType: asset.mediaType), asset.localIdentifier)
+                }
             }
         }
         collectionView.reloadData()
+    }
+    
+    func returnMediaType (mediaType: PHAssetMediaType) -> String {
+        switch mediaType {
+        case .audio:
+            return "audio"
+        case .image:
+            return "image"
+        case .video:
+            return "video"
+        default:
+            return "bohh type"
+        }
     }
 }
 
