@@ -20,10 +20,10 @@ class MediaFile {
     var path: URL?
 }
 
-protocol ImageVideoPickerDelegate {
-    func onCancel()
+@objc protocol ImageVideoPickerDelegate {
+    @objc optional func onCancel()
 //    func onDoneSelection(urls: [MediaFile])
-    func onDoneSelection(assets: [PHAsset])
+    @objc optional func onDoneSelection(assets: [PHAsset])
 }
 
 class ImageVideoPicker: UIViewController {
@@ -103,7 +103,7 @@ class ImageVideoPicker: UIViewController {
     }
     
     @IBAction func doneAction(_ sender: Any) {
-        delegate?.onDoneSelection(assets: selectedPhotos)
+        delegate?.onDoneSelection!(assets: selectedPhotos)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -222,7 +222,7 @@ extension ImageVideoPicker: AVCaptureFileOutputRecordingDelegate {
             let data = try Data.init(contentsOf: URL.init(string: outputFileURL.path)!)
             print (data)
         } catch (let error ) {
-            print("no data found")
+            print("no data found:", error)
         }
         
         UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil);
@@ -383,6 +383,7 @@ extension ImageVideoPicker: PHPhotoLibraryChangeObserver {
                 allPhotos = changeDetails.fetchResultAfterChanges
                 // (The table row for this one doesn't need updating, it always says "All Photos".)
                 self.collectionView.reloadData()
+//                getVideoUrl()
             }
         }
     }
@@ -417,22 +418,42 @@ extension ImageVideoPicker {
 
 // extract video testing
 extension ImageVideoPicker {
-    PHPhotoLibrary.shared().performChanges({
-    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url!)
-    }) { saved, error in
-    if saved {
-    let fetchOptions = PHFetchOptions()
-    fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+    func getVideoUrl (localIdentifier: String, comp: @escaping((URL)->())) {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.predicate = NSPredicate(format: "localIdentifier like %@", localIdentifier)
+        
+        let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).firstObject
+        PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
+            let newObj = avurlAsset as! AVURLAsset
+            comp(newObj.url)
+        })
+    }
     
-    // After uploading we fetch the PHAsset for most recent video and then get its current location url
+    func getDataFrom(asset: PHAsset, completion: @escaping(Data?, PHAssetMediaType?) -> ()) {
+        if asset.mediaType == .image {
+            
+        } else if asset.mediaType == .video {
+            self.getDataFor(videoAsset: asset) { data, mediaType in
+                completion(data, mediaType)
+            }
+        } else {
+            assert(true, "unknown media type. please contact: utale.ion@gmail.com")
+        }
+    }
     
-    let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
-    PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
-    let newObj = avurlAsset as! AVURLAsset
-    print(newObj.url)
-    // This is the URL we need now to access the video from gallery directly.
-    })
-    })
+    func getDataFor(videoAsset: PHAsset, completion: @escaping((Data?, PHAssetMediaType?)->())) {
+        self.getVideoUrl(localIdentifier: videoAsset.localIdentifier) { (url) in
+            do {
+                let data = try Data.init(contentsOf: url)
+                print(data.count as Any)
+                completion(data, videoAsset.mediaType)
+            } catch (let error ) {
+                print(error.localizedDescription)
+                completion(nil, PHAssetMediaType.unknown)
+            }
+            
+        }
     }
 }
-}
+
