@@ -65,9 +65,8 @@ class ImageVideoPicker: UIViewController {
     
     fileprivate let imageManager = PHCachingImageManager()
     fileprivate var thumbnailSize: CGSize!
-
+    
     override func viewDidLoad() {
-        print("ciao")
         collectionView.register(UINib(nibName: "ImageVideoPickerCell", bundle: nil), forCellWithReuseIdentifier: "asset")
         preparePhotoLibrary()
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(toggleCollectionViewAction))
@@ -211,22 +210,7 @@ extension ImageVideoPicker: UICollectionViewDelegateFlowLayout {
 extension ImageVideoPicker: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         print("did finish registering")
-        
-        if FileManager.default.fileExists(atPath: outputFileURL.path) {
-            print("video found at path", outputFileURL.path)
-        } else {
-            print("video not found at path", outputFileURL.path)
-        }
-        
-        do {
-            let data = try Data.init(contentsOf: URL.init(string: outputFileURL.path)!)
-            print (data)
-        } catch (let error ) {
-            print("no data found:", error)
-        }
-        
         UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil);
-        
     }
     
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
@@ -396,7 +380,6 @@ extension ImageVideoPicker {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        print(allPhotos.count)
         updateItemSize()
     }
     
@@ -418,41 +401,58 @@ extension ImageVideoPicker {
 
 // extract video testing
 extension ImageVideoPicker {
-    func getVideoUrl (localIdentifier: String, comp: @escaping((URL)->())) {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.predicate = NSPredicate(format: "localIdentifier like %@", localIdentifier)
-        
-        let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).firstObject
-        PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
-            let newObj = avurlAsset as! AVURLAsset
-            comp(newObj.url)
-        })
-    }
-    
-    func getDataFrom(asset: PHAsset, completion: @escaping(Data?, PHAssetMediaType?) -> ()) {
+    static func getDataFrom(asset: PHAsset, completion: @escaping(Data?) -> ()) {
         if asset.mediaType == .image {
-            
+            ImageVideoPicker.getDataFor(imageAsset: asset) { data in
+                completion(data)
+            }
         } else if asset.mediaType == .video {
-            self.getDataFor(videoAsset: asset) { data, mediaType in
-                completion(data, mediaType)
+            ImageVideoPicker.getDataFor(videoAsset: asset) { data in
+                completion(data)
             }
         } else {
             assert(true, "unknown media type. please contact: utale.ion@gmail.com")
         }
     }
     
-    func getDataFor(videoAsset: PHAsset, completion: @escaping((Data?, PHAssetMediaType?)->())) {
-        self.getVideoUrl(localIdentifier: videoAsset.localIdentifier) { (url) in
+    private static func getDataFor(videoAsset: PHAsset, completion: @escaping((Data?)->())) {
+        // it will be cool to add this to the selection, so that you can show the progress befor show selected image
+        let videoOption = PHVideoRequestOptions()
+        videoOption.isNetworkAccessAllowed = true
+        videoOption.progressHandler = {
+            (progress, error, stop, info) -> Void in
+            print("video progress: ", progress)
+        }
+        
+        PHImageManager().requestAVAsset(forVideo: videoAsset, options: videoOption, resultHandler: { (avurlAsset, audioMix, dict) in
+            guard let newObj = avurlAsset as? AVURLAsset else { return }
+            
             do {
-                let data = try Data.init(contentsOf: url)
-                print(data.count as Any)
-                completion(data, videoAsset.mediaType)
+                let data = try Data.init(contentsOf: newObj.url)
+                completion(data)
             } catch (let error ) {
                 print(error.localizedDescription)
-                completion(nil, PHAssetMediaType.unknown)
+                completion(nil)
             }
-            
+        })
+    }
+    
+    private static func getDataFor(imageAsset: PHAsset, completion: @escaping((Data?)->())) {
+        // it will be cool to add this to the selection, so that you can show the progress befor show selected image
+        let imageOption = PHImageRequestOptions()
+        imageOption.isNetworkAccessAllowed = true
+        imageOption.progressHandler = {
+            (progress, error, stop, info) -> Void in
+            print("image progress: ",progress)
+        }
+        
+        let imageManager = PHCachingImageManager()
+        imageManager.requestImage(for: imageAsset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: imageOption) { (image, anyHash) in
+            if image == nil {
+                completion(nil)
+            } else {
+                completion(UIImageJPEGRepresentation(image!, 0))
+            }
         }
     }
 }
