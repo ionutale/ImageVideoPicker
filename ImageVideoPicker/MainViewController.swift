@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var addImages: UIButton!
     
     var selectedPhotos: [PHAsset] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(UINib(nibName: "ImageVideoPickerCell", bundle: nil), forCellWithReuseIdentifier: "asset")
@@ -28,25 +28,13 @@ class MainViewController: UIViewController {
         }
     }
     
-//    if let image = UIImage(named: "example.png") {
-//        if let data = UIImagePNGRepresentation(image) {
-//            let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
-//            try? data.write(to: filename)
-//        }
-//    }
-//
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
     
     @IBAction func saveImageToFile() {
-        if let image = UIImage(named: "download.png") {
-            if let data = UIImageJPEGRepresentation(image, 0.8) {
-                let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
-                try? data.write(to: filename)
-            }
-        }
+        print("save image button action")
     }
 }
 
@@ -64,15 +52,14 @@ extension MainViewController: UICollectionViewDataSource {
         return cell
     }
     
-    func getImageFrom(asset: PHAsset, completion: @escaping(UIImage)->()) -> UIImage? {
+    func getImageFrom(asset: PHAsset, completion: @escaping(UIImage)->()) {
         
             let imageManager = PHCachingImageManager()
         
             imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: nil) { (image, anyHash) in
-                print(anyHash)
+                print(anyHash as Any)
                 completion(image!)
         }
-        return nil
     }
 }
 
@@ -89,12 +76,9 @@ extension MainViewController: ImageVideoPickerDelegate {
             getImageFrom(asset: asset) { (image) in
                 let mediaType = asset.mediaType == PHAssetMediaType.image ? ".jpg" : "mp4"
                 image.saveToDocuments(with: "image \(index)", type: mediaType)
-
             }
         }
-        
         collectionView.reloadData()
     }
-    
 }
 
