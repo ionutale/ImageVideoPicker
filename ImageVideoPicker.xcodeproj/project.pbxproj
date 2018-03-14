@@ -24,6 +24,7 @@
 		5148613C204AEFE60056C8D2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5148613E204AFDA70056C8D2 /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
 		514BA05820586B1D00744CD3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		514BA05C2059578E00744CD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		516F92342049B91C006751D6 /* ImageVideoPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageVideoPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		516F92372049B91C006751D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		516F923C2049B91C006751D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 				5148613E204AFDA70056C8D2 /* download.png */,
 				516F923E2049B91C006751D6 /* Assets.xcassets */,
 				516F92402049B91C006751D6 /* LaunchScreen.storyboard */,
+				514BA05C2059578E00744CD3 /* README.md */,
 				516F92432049B91C006751D6 /* Info.plist */,
 				518B5CD420553191003E03EA /* Extensions */,
 			);
